@@ -39,7 +39,7 @@ tmux new -s 1
 
 ```
 正式网节点：./omnicored  -conf=/root/usdt/bitcoin.conf 
-测试网节点：./omnicored  -conf=/root/data/usdt/bitcoin.conf  -testnet  
+测试网节点：./omnicored  -conf=/root/usdt/bitcoin.conf  -testnet  
 ```
 
 说明:-conf=/root/usdt/bitcoin.conf,此局就是说明按照此配置文件启动节点，文件路径为完完整的文件路径，上面已经说明，此路径可自定义设置，启动节点是需要写明完整路径即可。
