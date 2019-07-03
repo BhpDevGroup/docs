@@ -2,6 +2,10 @@
 
 ## Ubuntu系统
 
+### 节点下载
+
+https://bintray.com/artifact/download/omni/OmniBinaries/omnicore-0.5.0-x86_64-linux-gnu.tar.gz
+
 参考BTC节点部署
 
 https://github.com/BhpDevGroup/docs/blob/master/BTC/nodeDeployment.md
