@@ -19,6 +19,18 @@ USDT与BTC部署到统一台机器上时，注意通过配置文件修改端口�
 
 datadir=/root/usdt/data
 
+# 告知 Bitcoin-Qt 和 bitcoind 接受JSON-RPC命令（是否启用命令和接受RPC服务）
+
+server=1
+
+# 设置 gen=1 以尝试比特币挖矿
+
+gen=0
+
+# 后台执行（是否后台执行）
+
+daemon=0
+
 # 节点连接端口
 
 port=8334
@@ -27,6 +39,31 @@ port=8334
 
 rpcport=8335
 
+#RPC服务账号和密码，不设置的话是有默认密码的，本文没去深究默认，直接用自己设置的
+
+rpcuser=123456
+
+rpcpassword=abcdef
+
+#允许那些IP访问RPC接口，以下写法为默认所有ip都可访问
+
+rpcallowip=0.0.0.0/0
+
+rpcconnect=127.0.0.1
+
+#交易索引
+
+txindex=1 
+
+#手续费
+paytxfee=0.0001
+
+minrelaytxfee=0.0001
+datacarriersize=80
+logtimestamps=1
+omnidebug=tally  
+omnidebug=packets
+omnidebug=pending
 ```
 
 ### 启动BTC节点程序
