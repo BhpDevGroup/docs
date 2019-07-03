@@ -42,7 +42,7 @@ bitcoin-cli  -rpcconnect=127.0.0.1 -rpcuser=123456 -rpcpassword=abcdef -rpcport=
 | gettransaction    | 获取指定钱包内交易的详细信息                                 |
 | listsinceblock    | 返回指定区块之后发生的与钱包相关的所有交易                   |
 | sendtoaddress     | 向指定的地址发送指定数量的比特币                             |
-| walletlock        | 打印有关节点和网络的各种信息                                 |
+| walletlock        | 锁定钱包                                                     |
 | walletpassphrase  | 将钱包解密密钥存储在内存中，存储时间为指定的秒数             |
 | getnetworkinfo    | 查看网络状态                                                 |
 | getpeerinfo       | 查看网络节点                                                 |
@@ -436,7 +436,7 @@ bitcoin-cli  -rpcconnect=127.0.0.1 -rpcuser=123456 -rpcpassword=abcdef -rpcport=
 
 ### walletlock
 
-打印有关节点和网络的各种信息
+锁定钱包
 
 #### 参数
 
