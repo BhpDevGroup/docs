@@ -99,10 +99,10 @@ tmux new -s 1
 在此目录下执行启动节点程序命令：
 
 ```
-./bitcoind -conf=/root/btc/bitcoin.conf 
+./bitcoind -conf=/root/btc/bitcoin.conf -txindex=1
 ```
 
-说明:-conf=/root/btc/bitcoin.conf,此局就是说明按照此配置文件启动节点，文件路径为完完整的文件路径，上面已经说明，此路径可自定义设置，启动节点是需要写明完整路径即可。
+说明:-conf=/root/btc/bitcoin.conf,此局就是说明按照此配置文件启动节点，文件路径为完完整的文件路径，上面已经说明，此路径可自定义设置，启动节点是需要写明完整路径即可。-txindex=1同步所有交易，包含非钱包交易。
 
 **启动成功后就会自动更新节点数据了。注意：启动BTC节点，包括bitcoin-cli 命令，rpc服务，区块数据同步。**
 

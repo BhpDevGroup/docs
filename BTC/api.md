@@ -35,15 +35,18 @@ bitcoin-cli  -rpcconnect=127.0.0.1 -rpcuser=123456 -rpcpassword=abcdef -rpcport=
 
 ## API
 
-| method           | description                                                  |
-| ---------------- | ------------------------------------------------------------ |
-| getnewaddress    | 返回一个用于接收支付的新的比特币地址，如果调用时指定了 账户，那么该地址接收到的支付将计入该账户 |
-| getbalance       | 返回钱包中所有账户（或指定账户）的比特币数量，该调用 需要节点启用钱包功能 |
-| gettransaction   | 获取指定钱包内交易的详细信息                                 |
-| listsinceblock   | 返回指定区块之后发生的与钱包相关的所有交易                   |
-| sendtoaddress    | 向指定的地址发送指定数量的比特币                             |
-| walletlock       | 打印有关节点和网络的各种信息                                 |
-| walletpassphrase | 将钱包解密密钥存储在内存中，存储时间为指定的秒数             |
+| method            | description                                                  |
+| ----------------- | ------------------------------------------------------------ |
+| getnewaddress     | 返回一个用于接收支付的新的比特币地址，如果调用时指定了 账户，那么该地址接收到的支付将计入该账户 |
+| getbalance        | 返回钱包中所有账户（或指定账户）的比特币数量，该调用 需要节点启用钱包功能 |
+| gettransaction    | 获取指定钱包内交易的详细信息                                 |
+| listsinceblock    | 返回指定区块之后发生的与钱包相关的所有交易                   |
+| sendtoaddress     | 向指定的地址发送指定数量的比特币                             |
+| walletlock        | 打印有关节点和网络的各种信息                                 |
+| walletpassphrase  | 将钱包解密密钥存储在内存中，存储时间为指定的秒数             |
+| getnetworkinfo    | 查看网络状态                                                 |
+| getpeerinfo       | 查看网络节点                                                 |
+| getblockchaininfo | 调用返回区块链的当前状态                                     |
 
 ### getnewaddress
 
@@ -506,4 +509,356 @@ null
 
 ​    "id": "1"
 
+}
+
+### getnetworkinfo
+
+查看网络状态
+
+#### 参数
+
+无
+
+#### 返回值
+
+- version：服务器版本
+- subversion：服务器subversion字符串
+- protocolversion：协议版本
+- localservices：提供给网络的服务
+- localrelay：如果从对等方请求事务中继，则为true
+- timeoffset：时间偏移量
+- networkactive：是否启用了p2p网络
+- connections：连接数
+- networks：
+  - name：网络
+  - limited：是使用-onlynet限制的网络
+  - reachable：网络是否可达,
+  - proxy：用于此网络的代理，如果没有，则为空
+  - proxy_randomize_credentials：是否使用随机凭证
+
+- relayfee：BTC / kB交易的最低中继费
+
+- incrementalfee：mempool限制的最小费用增量或BTC / kB中的BIP 125替换
+- localaddresses：
+  - address：网络地址
+  - port：网络端口
+  - score：分数
+
+- warnings：任何网络和区块链警告
+
+#### 示例代码
+
+{
+	"jsonrpc": "2.0", 
+	"id":"1", 
+	"method": "getnetworkinfo", 
+	"params": []
+}
+
+#### 响应
+
+{
+    "result": {
+        "version": 170100,
+        "subversion": "/Satoshi:0.17.1/",
+        "protocolversion": 70015,
+        "localservices": "000000000000040d",
+        "localrelay": true,
+        "timeoffset": 0,
+        "networkactive": true,
+        "connections": 46,
+        "networks": [
+            {
+                "name": "ipv4",
+                "limited": false,
+                "reachable": true,
+                "proxy": "",
+                "proxy_randomize_credentials": false
+            },
+            {
+                "name": "ipv6",
+                "limited": false,
+                "reachable": true,
+                "proxy": "",
+                "proxy_randomize_credentials": false
+            },
+            {
+                "name": "onion",
+                "limited": true,
+                "reachable": false,
+                "proxy": "",
+                "proxy_randomize_credentials": false
+            }
+        ],
+        "relayfee": 0.00001,
+        "incrementalfee": 0.00001,
+        "localaddresses": [],
+        "warnings": ""
+    },
+    "error": null,
+    "id": "1"
+}
+
+### getpeerinfo
+
+查看网络节点
+
+#### 参数
+
+无
+
+#### 返回值
+
+- id：节点索引
+
+- addr：IP地址和端口
+
+- addrlocal：本地地址
+
+- addrbind：绑定的连接的地址
+
+- services：提供的服务
+
+- relaytxes：是否接受转发的Tx
+
+- lastsend：自上次发送的纪元（1970年1月1日GMT）以来的秒数
+
+- lastrecv"：自上次收到纪元（1970年1月1日GMT）以来的秒数
+
+- bytessent：发送的总字节数
+
+- bytesrecv：接收的总字节数
+
+- conntime：自纪元（1970年1月1日GMT）以来的连接时间（以秒为单位）
+
+- timeoffset：以秒为单位的时间偏移量
+
+- pingtime:ping时间（如果可用）
+
+- minping:：最小观察到的ping时间（如果有的话）
+
+- version：节点版本，例如7001
+
+- subver：字符串版本
+
+- inbound：入站（true）或出站（false）
+
+- addnode：连接是由于addnode / -connect还是由于是自动/入站连接
+
+- startingheight：节点起始高度（块）
+
+- banscore：禁令分值
+
+- synced_headers：与节点项共有的最后一个标头
+
+- synced_blocks：与节点共有的最后一个块         
+
+- inflight：
+
+  - n：目前从节点方询问的块的高度
+
+- whitelisted：节点是否列入白名单            
+
+- bytessent_per_msg：
+
+  - addr：按消息类型聚合发送的总字节数
+
+     ...
+
+- bytesrecv_per_msg:
+
+  - addr：按消息类型聚合接收的总字节数
+
+#### 示例代码
+
+{
+	"jsonrpc": "2.0", 
+	"id":"1", 
+	"method": "getpeerinfo", 
+	"params": []
+}
+
+#### 响应
+
+{
+    "result": [
+        {
+            "id": 8,
+            "addr": "80.84.54.26:8333",
+            "addrlocal": "47.103.41.106:37576",
+            "addrbind": "172.19.166.116:37576",
+            "services": "000000000000000d",
+            "relaytxes": true,
+            "lastsend": 1562141248,
+            "lastrecv": 1562141254,
+            "bytessent": 149048963,
+            "bytesrecv": 545472453,
+            "conntime": 1560913810,
+            "timeoffset": 0,
+            "pingtime": 0.370666,
+            "minping": 0.288554,
+            "version": 70015,
+            "subver": "/Satoshi:0.14.1/",
+            "inbound": false,
+            "addnode": false,
+            "startingheight": 581362,
+            "banscore": 0,
+            "synced_headers": 583595,
+            "synced_blocks": 583595,
+            "inflight": [],
+            "whitelisted": false,
+            "bytessent_per_msg": {
+                "addr": 472495,
+                "cmpctblock": 35902,
+                "feefilter": 32,
+                "getaddr": 24,
+                "getblocktxn": 1528,
+                "getdata": 30965564,
+                "getheaders": 25272,
+                "headers": 134963,
+                "inv": 115561672,
+                "notfound": 362364,
+                "ping": 326208,
+                "pong": 326816,
+                "reject": 208067,
+                "sendcmpct": 858,
+                "sendheaders": 24,
+                "tx": 627024,
+                "verack": 24,
+                "version": 126
+            },
+            "bytesrecv_per_msg": {
+                "addr": 274572,
+                "blocktxn": 613605,
+                "cmpctblock": 18917479,
+                "feefilter": 32,
+                "getdata": 450926,
+                "getheaders": 1053,
+                "headers": 95474,
+                "inv": 96961078,
+                "notfound": 229587,
+                "ping": 326816,
+                "pong": 326208,
+                "reject": 2576,
+                "sendcmpct": 66,
+                "sendheaders": 24,
+                "tx": 427272807,
+                "verack": 24,
+                "version": 126
+            }
+        },
+		...
+    ],
+    "error": null,
+    "id": "1"
+}
+
+### getblockchaininfo
+
+调用返回区块链的当前状态
+
+#### 参数
+
+无
+
+#### 返回值
+
+- chain：区块链名称，可以是：main、test或regtest
+- blocks：本地最优链中的已验证区块数量
+- headers：本地最有区块头链表中的已验证区块头数量
+- bestblockhash：本地最优链中最高区块的哈希
+- difficulty：区块难度
+- mediantime：最近区块之前的11个区块的中位时间
+- verificationprogress：区块验证进度，0.0~1.0
+- chainwork：
+- pruned：
+- pruneheight：
+- softforks：软分叉描述数组，成员结构如下：
+  - id：
+  - version：
+  - enforce：
+  - status：
+  - found：
+  - required：
+  - window：
+  - reject：
+  - status：
+- bip9_softforks
+  - name: 一个BIP39软分叉描述对象，结构如下
+  - status：当前的状态，可以是以下值之一：
+    - defined
+    - started
+    - locked_in
+    - active
+    - failed
+  - bit：在软件版本字段中的位号
+  - startTime：软分叉开始时间戳
+  - timeout：超时时间戳
+  - since：
+
+#### 示例代码
+
+{
+	"jsonrpc": "2.0", 
+	"id":"1", 
+	"method": "getblockchaininfo", 
+	"params": []
+}
+
+#### 响应
+
+{
+    "result": {
+        "chain": "main",
+        "blocks": 583599,
+        "headers": 583599,
+        "bestblockhash": "0000000000000000000c6b5aef198549bc47712feacf45163b1426179b3212ee",
+        "difficulty": 7934713219630.606,
+        "mediantime": 1562140728,
+        "verificationprogress": 0.9999953005655758,
+        "initialblockdownload": false,
+        "chainwork": "000000000000000000000000000000000000000006fb784c562c44ee28697dd0",
+        "size_on_disk": 259124921649,
+        "pruned": false,
+        "softforks": [
+            {
+                "id": "bip34",
+                "version": 2,
+                "reject": {
+                    "status": true
+                }
+            },
+            {
+                "id": "bip66",
+                "version": 3,
+                "reject": {
+                    "status": true
+                }
+            },
+            {
+                "id": "bip65",
+                "version": 4,
+                "reject": {
+                    "status": true
+                }
+            }
+        ],
+        "bip9_softforks": {
+            "csv": {
+                "status": "active",
+                "startTime": 1462060800,
+                "timeout": 1493596800,
+                "since": 419328
+            },
+            "segwit": {
+                "status": "active",
+                "startTime": 1479168000,
+                "timeout": 1510704000,
+                "since": 481824
+            }
+        },
+        "warnings": ""
+    },
+    "error": null,
+    "id": "1"
 }
