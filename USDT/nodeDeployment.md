@@ -6,7 +6,7 @@
 
 https://bintray.com/artifact/download/omni/OmniBinaries/omnicore-0.5.0-x86_64-linux-gnu.tar.gz
 
-参考BTC节点部署
+程序解压参考BTC节点部署，节点配置，节点启动参照本文节点配置
 
 https://github.com/BhpDevGroup/docs/blob/master/BTC/nodeDeployment.md
 
@@ -66,7 +66,7 @@ omnidebug=packets
 omnidebug=pending
 ```
 
-### 启动BTC节点程序
+### 启动USDT节点程序
 
 本文没有启动后台运行程序，所以建议在服务器开个tmux 启动节点程序。命令为：
 
