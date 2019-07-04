@@ -65,9 +65,12 @@ gen=0
 
 daemon=0
 
+# 程序运行端口，可修改，默认8332
+port=8332
+
 # 监听 RPC 链接,正式默认端口8333 测试默认18333（最好设置好，免得不清楚）
 
-rpcport=8332
+rpcport=8333
 
 #RPC服务账号和密码，不设置的话是有默认密码的，本文没去深究默认，直接用自己设置的
 
@@ -80,6 +83,10 @@ rpcpassword=abcdef
 rpcallowip=0.0.0.0/0
 
 rpcconnect=127.0.0.1
+
+#事务起始索引
+txindex=1
+
 ```
 
 更多配置可参考网址：https://www.mgchen.com/112.html
@@ -99,7 +106,7 @@ tmux new -s 1
 在此目录下执行启动节点程序命令：
 
 ```
-./bitcoind -conf=/root/btc/bitcoin.conf -txindex=1
+./bitcoind -conf=/root/btc/bitcoin.conf
 ```
 
 说明:-conf=/root/btc/bitcoin.conf,此局就是说明按照此配置文件启动节点，文件路径为完完整的文件路径，上面已经说明，此路径可自定义设置，启动节点是需要写明完整路径即可。-txindex=1同步所有交易，包含非钱包交易。
