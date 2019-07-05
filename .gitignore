@@ -7,3 +7,5 @@
 !.gitignore
 !*.md
 !*.png
+!*.avm
+!*.json
