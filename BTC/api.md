@@ -33,20 +33,31 @@ bitcoin-cli  -rpcconnect=127.0.0.1 -rpcuser=123456 -rpcpassword=abcdef -rpcport=
 
 **第三方文档：https://blog.csdn.net/ffzhihua/article/details/80706122**
 
+**汇智网中文版：http://cw.hubwiz.com/card/c/bitcoin-json-rpc-api/1/4/7/**
+
+**ChainQuery：http://chainquery.com/bitcoin-api/encryptwallet**
+
 ## API
 
-| method            | description                                                  |
-| ----------------- | ------------------------------------------------------------ |
-| getnewaddress     | 返回一个用于接收支付的新的比特币地址，如果调用时指定了 账户，那么该地址接收到的支付将计入该账户 |
-| getbalance        | 返回钱包中所有账户（或指定账户）的比特币数量，该调用 需要节点启用钱包功能 |
-| gettransaction    | 获取指定钱包内交易的详细信息                                 |
-| listsinceblock    | 返回指定区块之后发生的与钱包相关的所有交易                   |
-| sendtoaddress     | 向指定的地址发送指定数量的比特币                             |
-| walletlock        | 锁定钱包                                                     |
-| walletpassphrase  | 将钱包解密密钥存储在内存中，存储时间为指定的秒数             |
-| getnetworkinfo    | 查看网络状态                                                 |
-| getpeerinfo       | 查看网络节点                                                 |
-| getblockchaininfo | 调用返回区块链的当前状态                                     |
+| method                 | description                                                  |
+| ---------------------- | ------------------------------------------------------------ |
+| getnewaddress          | 返回一个用于接收支付的新的比特币地址，如果调用时指定了 账户，那么该地址接收到的支付将计入该账户。调用需要节点启用钱包支持。 |
+| backupwallet           | 调用可以将钱包文件wallet.data安全地拷贝到指定文件或目录。 该调用需要节点启用钱包支持。 |
+| dumpprivkey            | 调用导出指定地址对应的私钥，格式为WIF。调用需要节点启用钱包支持，而且钱包解锁或未加密。 |
+| dumpwallet             | 调用将钱包里的所有密钥导出到指定的文件。调用需要节点启用钱包支持，并且钱包解锁或未加密。 |
+| encryptwallet          | 调用将返回一个提醒信息，提示钱包已加密、节点重启。           |
+| importwallet           | 调用可以导入钱包转储文件。调用需要节点启用钱包支持。         |
+| walletpassphrase       | 将钱包解密密钥存储在内存中，存储时间为指定的秒数调用需要节点启用钱包支持。 |
+| walletpassphrasechange | 将钱包密码从“旧密码”更改为“新密码”。调用需要节点启用钱包支持。 |
+| settxfee               | 调用设置钱包交易支付时采用的每千字节手续费率。调用需要节点启用钱包支持。 |
+| sendfrom               | 从本地帐户向比特币地址转账，调用需要节点启用钱包支持。       |
+| sendtoaddress          | 向指定的地址发送指定数量的比特币，调用需要节点启用钱包支持。 |
+| getbalance             | 返回钱包中所有账户（或指定账户）的比特币数量，调用需要节点启用钱包支持。 |
+| gettransaction         | 获取指定钱包内交易的详细信息，调用需要节点启用钱包支持。     |
+| listsinceblock         | 返回指定区块之后发生的与钱包相关的所有交易，调用需要节点启用钱包支持。 |
+| getnetworkinfo         | 查看网络状态                                                 |
+| getpeerinfo            | 查看网络节点                                                 |
+| getblockchaininfo      | 调用返回区块链的当前状态                                     |
 
 ### getnewaddress
 
@@ -54,7 +65,8 @@ bitcoin-cli  -rpcconnect=127.0.0.1 -rpcuser=123456 -rpcpassword=abcdef -rpcport=
 
 #### 参数
 
-无
+- Account：新地址所属账户，可选，默认值：""
+- AddressType：地址类型，可以是`legacy`、`p2sh-segwit`和`bech32`，可以 使用`-addresstype`设置默认地址类型
 
 #### 返回值
 
@@ -62,17 +74,410 @@ bitcoin-cli  -rpcconnect=127.0.0.1 -rpcuser=123456 -rpcpassword=abcdef -rpcport=
 
 #### 示例代码
 
+```
+~$ bitcoin-cli -testnet getnewaddress "doc test"
+```
+
+```
 {
 	"jsonrpc": "2.0", 
 	"id":"1", 
 	"method": "getnewaddress", 
 	"params": []
 }
+```
 
 #### 响应
 
 {
     "result": "344WCRrRKojgmeFacFmiCNZ4cb8QFYshNm",
+    "error": null,
+    "id": "1"
+}
+
+### backupwallet 
+
+可以将钱包文件wallet.data安全地拷贝到指定文件或目录。 该调用需要节点启用钱包支持。
+
+#### 参数
+
+- destination：备份目录或文件名，如果是文件名，则该文件被覆盖；如果是目录， 那么该目录下将新建或覆盖wallet.data文件。
+
+#### 返回值
+
+成功时backupwallet调用返回null，否则返回一个错误对象。
+
+#### 示例代码
+
+下面的命令将节点钱包文件备份到/tmp/backup.dat文件：
+
+```
+~$ bitcoin-cli -testnet backupwallet /tmp/backup.dat
+```
+
+```
+{
+	"jsonrpc": "2.0", 
+	"id":"1", 
+	"method": "backupwallet", 
+	"params": ["/tmp/backup.dat"]
+}
+```
+
+#### 响应
+
+{
+
+​    "result": null,
+
+​    "error": null,
+
+​    "id": "1"
+
+}
+
+### dumpprivkey
+
+调用导出指定地址对应的私钥，格式为WIF。该调用需要 节点启用钱包支持，而且钱包解锁或未加密。
+
+#### 参数
+
+- Address：一个钱包内的P2PKH地址
+
+#### 返回值
+
+返回指定地址对应的WIF格式的私钥。
+
+#### 示例代码
+
+```
+~$ bitcoin-cli -testnet dumpprivkey moQR7i8XM4rSGoNwEsw3h4YEuduuP6mxw7
+```
+
+```
+{
+	"jsonrpc": "2.0", 
+	"id":"1", 
+	"method": "dumpprivkey", 
+	"params": ["moQR7i8XM4rSGoNwEsw3h4YEuduuP6mxw7"]
+}
+```
+
+#### 响应
+
+{
+
+​    "result": “cTVNtBK7mBi2yc9syEnwbiUpnpGJKohDWzXMeF4tGKAQ7wvomr95”,
+
+​    "error": null,
+
+​    "id": "1"
+
+}
+
+### dumpwallet
+
+调用将钱包里的所有密钥导出到指定的文件。该调用 需要节点启用钱包，并且钱包解锁或未加密。
+
+#### 参数
+
+- Filename：导出文件名
+
+#### 返回值
+
+成功时，调用返回`null`，否则返回一个错误对象。
+
+#### 示例代码
+
+```
+~$ bitcoin-cli -testnet dumpwallet /tmp/dump.txt
+```
+
+```
+{
+	"jsonrpc": "2.0", 
+	"id":"1", 
+	"method": "dumpwallet", 
+	"params": ["/tmp/dump.txt"]
+}
+```
+
+导出文件是文本格式的，因此可以直接查看，例如使用more查看：
+
+```
+~$ more /tmp/dump.txt
+```
+
+文件内容类似如下：
+
+```
+# Wallet dump created by Bitcoin v0.9.1.0-g026a939-beta (Tue, 8 Apr 2014 12:04:06 +0200)
+# * Created on 2014-04-29T20:46:09Z
+# * Best block at time of backup was 227221 (0000000026ede4c10594af8087748507fb06dcd30b8f4f48b9cc463cabc9d767),
+#   mined on 2014-04-29T21:15:07Z
+
+cTtefiUaLfXuyBXJBBywSdg8soTEkBNh9yTi1KgoHxUYxt1xZ2aA 2014-02-05T15:44:03Z label=test1 # addr=mnUbTmdAFD5EAg3348Ejmonub7JcWtrMck
+cQNY9v93Gyt8KmwygFR59bDhVs3aRDkuT8pKaCBpop82TZ8ND1tH 2014-02-05T16:58:41Z reserve=1 # addr=mp4MmhTp3au21HPRz5waf6YohGumuNnsqT
+cNTEPzZH9mjquFFADXe5S3BweNiHLUKD6PvEKEsHApqjX4ZddeU6 2014-02-05T16:58:41Z reserve=1 # addr=n3pdvsxveMBkktjsGJixfSbxacRUwJ9jQW
+cTVNtBK7mBi2yc9syEnwbiUpnpGJKohDWzXMeF4tGKAQ7wvomr95 2014-02-05T16:58:41Z change=1 # addr=moQR7i8XM4rSGoNwEsw3h4YEuduuP6mxw7
+cNCD679B4xi17jb4XeLpbRbZCbYUugptD7dCtUTfSU4KPuK2DyKT 2014-02-05T16:58:41Z reserve=1 # addr=mq8fzjxxVbAKxUGPwaSSo3C4WaUxdzfw3C
+```
+
+### encryptwallet
+
+调用使用指定的密文加密钱包。该操作只需调用一次，一旦启用加密， 每次需要使用钱包中的密钥时，就需要输入密文。
+
+如果在命令行使用这个调用，需要注意你使用的shell可能会保存输入的命令（包括输入 的密文）。另外，一旦钱包启用加密，目前没有其他的RPC接口可以禁用其加密。如果 需要一个不加密的钱包，你只能再创建一个新的钱包，然后使用`dumpwallet`调用的 输出来恢复加密钱包中的密钥。
+
+#### 参数
+
+- Passphrase：用于加密钱包的密文，最短1个字符
+
+#### 返回值
+
+返回一个提醒信息，提示钱包已加密、节点重启
+
+#### 示例代码
+
+```
+~$ bitcoin-cli -testnet encryptwallet "my pass phrase"
+```
+
+```
+{
+	"jsonrpc": "2.0", 
+	"id":"1", 
+	"method": "encryptwallet", 
+	"params": ["my pass phrase"]
+}
+```
+
+#### 响应
+
+wallet encrypted; Bitcoin server stopping, restart to run with encrypted
+wallet. The keypool has been flushed, you need to make a new backup.
+
+#### walletpassphrase 
+
+`importwallet`调用可以导入钱包转储文件（通过`dumpwallet`调用获得）。 该文件中的私钥将添加到节点钱包中。由于加入了新的私钥，该调用可能 需要重新扫描区块链。
+
+`importwallet`调用需要节点启用钱包功能。
+
+#### 参数
+
+- Filename：要导入的钱包转储文件名
+
+#### 返回值
+
+成功时`importwallet`调用返回null。
+
+#### 示例代码
+
+```
+~$ bitcoin-cli -testnet importwallet /tmp/dump.txt
+```
+
+```
+{
+	"jsonrpc": "2.0", 
+	"id":"1", 
+	"method": "importwallet", 
+	"params": ["/tmp/dump.txt"]
+}
+```
+
+#### 响应
+
+{
+
+​    "result": null,
+
+​    "error": null,
+
+​    "id": "1"
+
+}
+
+### walletpassphrase 
+
+将钱包解密密钥存储在内存中，存储时间为指定的秒数。在钱包已解锁时发出walletpassphrase命令将设置一个新的解锁时间，该时间将覆盖旧的解锁时间。
+
+#### 参数
+
+- passphrase：打开钱包的密码。
+- seconds ：解密密钥将自动从内存中删除的秒数，600=10分钟。
+
+#### 返回值
+
+null
+
+#### 示例代码
+
+{
+
+​	"jsonrpc": "2.0", 
+
+​	"id":"1", 
+
+​	"method": "walletpassphrase", 
+
+​	"params": ["my pass phrase", 60]
+
+}
+
+#### 响应
+
+{
+
+​    "result": null,
+
+​    "error": null,
+
+​    "id": "1"
+
+}
+
+#### walletpassphrasechange
+
+将钱包密码从“旧密码”更改为“新密码”。调用需要节点启用钱包支持。
+
+#### 参数
+
+- Old Passphrase：当前密码
+- New Passphrase：新密码
+
+#### 返回值
+
+null
+
+#### 示例代码
+
+{
+
+​	"jsonrpc": "2.0", 
+
+​	"id":"1", 
+
+​	"method": "walletpassphrasechange", 
+
+​	"params": ["old","new"]
+
+}
+
+#### settxfee
+
+调用设置钱包交易支付时采用的每千字节手续费率。该调用需要 节点启用钱包功能。
+
+#### 参数
+
+- FeePerKB：每千字节的手续费
+
+#### 返回值
+
+成功时返回true。
+
+#### 示例代码
+
+下面的命令将手续费率设置为0.001btc/kb：
+
+```
+~$ bitcoin-cli -testnet settxfee 0.00100000
+```
+
+```
+{
+	"jsonrpc": "2.0", 
+	"id":"1", 
+	"method": "settxfee", 
+	"params": [0.00100000]
+}
+```
+
+#### 响应
+
+{
+    "result": true,
+    "error": null,
+    "id": "1"
+}
+
+#### sendfrom 
+
+从本地帐户向比特币地址转账。该调用需要 节点启用钱包功能。
+
+#### 参数
+
+- from account：指定花费的账户名称。为空表示使用默认帐户
+- to address：应发送到的P2PKH或P2SH地址
+- amount to spend：花费金额。将确保账户有足够的比特币支付该金额（但支付的交易费用不包括在计算中，因此账户可以花费其余额加上交易费用的总和）。
+- minimum confirmations：输入交易必须具有的将其输出贷记到此帐户余额的最小确认数。传出交易总是计算在内，和使用MOVE RPC进行的move交易一样。如果帐户的余额不足以支付此交易，则付款将被拒绝。使用0支出未确认的传入付款。默认值为1。
+- comment：分配给此交易的本地存储（非广播）注释。默认为无注释。
+- to comment：分配给此交易的本地存储（非广播）注释。用于描述付款对象。默认为无注释。
+
+#### 返回值
+
+返回已发送的交易ID。
+
+#### 示例代码
+
+```
+~$ bitcoin-cli -testnet sendmany "tabby" "1M72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd" 0.01 6 "donation" "seans outpost"
+```
+
+```
+{
+	"jsonrpc": "2.0", 
+	"id":"1", 
+	"method": "sendmany", 
+	"params": ["tabby", "1M72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd", 0.01, 6, "donation", "seans outpost"]
+}
+```
+
+#### 响应
+
+{
+    "result": "a2a2eb18cb051b5fe896a32b1cb20b179d981554b6bd7c5a956e56a0eecb04f0",
+    "error": null,
+    "id": "1"
+}
+
+### sendtoaddress
+
+向指定的地址发送指定数量的比特币。该调用需要节点启用钱包功能
+
+#### 参数
+
+- ToAddress：接收地址
+- Amount：发送的比特币数量
+- Comment：备注文本
+- CommentTo：备注接收人
+- AutoFeeSubtract：是否自动扣除手续费，默认值：false
+
+#### 返回值
+
+调用返回交易ID
+
+#### 示例代码
+
+```
+~$ bitcoin-cli -testnet sendtoaddress mmXgiR6KAhZCyQ8ndr2BCfEq1wNG2UnyG6 
+  0.1 "sendtoaddress example" "Nemo From Example.com"
+```
+
+```
+{
+	"jsonrpc": "2.0", 
+	"id":"1", 
+	"method": "sendtoaddress", 
+	"params": ["mmXgiR6KAhZCyQ8ndr2BCfEq1wNG2UnyG6", 0.1, "sendtoaddress example", "Nemo From Example.com"]
+
+}
+```
+
+#### 响应
+
+{
+    "result": "a2a2eb18cb051b5fe896a32b1cb20b179d981554b6bd7c5a956e56a0eecb04f0",
     "error": null,
     "id": "1"
 }
@@ -93,19 +498,20 @@ bitcoin-cli  -rpcconnect=127.0.0.1 -rpcuser=123456 -rpcpassword=abcdef -rpcport=
 
 #### 示例代码
 
+```
+~$ bitcoin-cli -testnet getbalance "my pass phrase" 1 true
+```
+
+```
 {
-
-​	"jsonrpc": "2.0", 
-
-​	"id":"1", 
-
-​	"method": "getbalance", 
-
-​	"params": ["*", 6]
-
+	"jsonrpc": "2.0", 
+	"id":"1", 
+	"method": "getbalance", 
+	"params": ["my pass phrase", 1, true]
 }
+```
 
-#### 响应
+####  响应
 
 {
     "result": 0.00000001,
@@ -174,17 +580,19 @@ bitcoin-cli  -rpcconnect=127.0.0.1 -rpcuser=123456 -rpcpassword=abcdef -rpcport=
 
 #### 示例代码
 
+```
+~$ bitcoin-cli -testnet gettransaction
+  1075db55d416d3ca199f55b6084e2115b9345e16c5cf302fc80e9d5fbf5d48d
+```
+
+```
 {
-
-​	"jsonrpc": "2.0", 
-
-​	"id":"1", 
-
-​	"method": "gettransaction", 
-
-​	"params": ["1075db55d416d3ca199f55b6084e2115b9345e16c5cf302fc80e9d5fbf5d48d"]
-
+	"jsonrpc": "2.0", 
+	"id":"1", 
+	"method": "gettransaction", 
+	"params": ["1075db55d416d3ca199f55b6084e2115b9345e16c5cf302fc80e9d5fbf5d48d"]
 }
+```
 
 #### 响应
 
@@ -277,7 +685,7 @@ bitcoin-cli  -rpcconnect=127.0.0.1 -rpcuser=123456 -rpcpassword=abcdef -rpcport=
 - vout：交易输出序号
 - fee：手续费
 - confirmations：确认数
-- generated：是否币基交易\
+- generated：是否币基交易
 - blockhash：区块哈希
 - blockindex：区块序号
 - blocktime：区块时间戳
@@ -300,17 +708,20 @@ bitcoin-cli  -rpcconnect=127.0.0.1 -rpcuser=123456 -rpcpassword=abcdef -rpcport=
 
 #### 示例代码
 
+```
+~$ bitcoin-cli -testnet listsinceblock 
+              00000000688633a503f69818a70eac281302e9189b1bb57a76a05c329fcda718 
+              6 true
+```
+
+```
 {
-
-​	"jsonrpc": "2.0", 
-
-​	"id":"1", 
-
-​	"method": "listsinceblock", 
-
-​	"params": ["0000000099c744455f58e6c6e98b671e1bf7f37346bfd4cf5d0274ad8ee660cb",6, true]
-
+	"jsonrpc": "2.0", 
+	"id":"1", 
+	"method": "listsinceblock", 
+	"params": ["0000000099c744455f58e6c6e98b671e1bf7f37346bfd4cf5d0274ad8ee660cb",6, true]
 }
+```
 
 #### 响应
 
@@ -390,124 +801,7 @@ bitcoin-cli  -rpcconnect=127.0.0.1 -rpcuser=123456 -rpcpassword=abcdef -rpcport=
 
 ​    ],
 
-​    "lastblock" : "0000000000984add1a686d513e66d25686572c7276ec3e358a7e3e9f7eb88619"}
-
-### sendtoaddress
-
-向指定的地址发送指定数量的比特币。该调用需要节点启用钱包功能
-
-#### 参数
-
-- ToAddress：接收地址
-
-- Amount：发送的比特币数量
-
-- Comment：备注文本
-
-- CommentTo：备注接收人
-
-- AutoFeeSubtract：是否自动扣除手续费，默认值：false
-
-#### 返回值
-
-调用返回交易ID
-
-#### 示例代码
-
-{
-
-​	"jsonrpc": "2.0", 
-
-​	"id":"1", 
-
-​	"method": "sendtoaddress", 
-
-​	"params": ["1M72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd", 0.1, "donation", "seans outpost"]
-
-}
-
-#### 响应
-
-{
-    "result": "a2a2eb18cb051b5fe896a32b1cb20b179d981554b6bd7c5a956e56a0eecb04f0",
-    "error": null,
-    "id": "1"
-}
-
-### walletlock
-
-锁定钱包
-
-#### 参数
-
-无
-
-#### 返回值
-
-null
-
-#### 示例代码
-
-{
-
-​	"jsonrpc": "2.0", 
-
-​	"id":"1", 
-
-​	"method": "walletlock", 
-
-​	"params": []
-
-}
-
-#### 响应
-
-{
-
-​    "result": null,
-
-​    "error": null,
-
-​    "id": "1"
-
-}
-
-### walletpassphrase 
-
-将钱包解密密钥存储在内存中，存储时间为指定的秒数。在钱包已解锁时发出walletpassphrase命令将设置一个新的解锁时间，该时间将覆盖旧的解锁时间。
-
-#### 参数
-
-- passphrase：打开钱包的密码。
-- seconds ：解密密钥将自动从内存中删除的秒数，600=10分钟。
-
-#### 返回值
-
-null
-
-#### 示例代码
-
-{
-
-​	"jsonrpc": "2.0", 
-
-​	"id":"1", 
-
-​	"method": "walletpassphrase", 
-
-​	"params": ["my pass phrase", 60]
-
-}
-
-#### 响应
-
-{
-
-​    "result": null,
-
-​    "error": null,
-
-​    "id": "1"
+​    "lastblock" : "0000000000984add1a686d513e66d25686572c7276ec3e358a7e3e9f7eb88619"
 
 }
 
@@ -798,12 +1092,18 @@ null
 
 #### 示例代码
 
+```
+~$ bitcoin-cli getblockchaininfo
+```
+
+```
 {
 	"jsonrpc": "2.0", 
 	"id":"1", 
 	"method": "getblockchaininfo", 
 	"params": []
 }
+```
 
 #### 响应
 
