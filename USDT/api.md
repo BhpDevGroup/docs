@@ -337,3 +337,41 @@ $ omnicore-cli "omni_sendall" "3M9qvHKtgARhqcMtM5cRT9VaiDJ5PSfQGY" "37FaKponF7zq
 ​    "id": "1"
 }
 
+### omni_funded_send
+
+omni_funded_send调用创建并发送一个简单充值交易。  发送方发出的所有比特币都将被消耗掉，如果比特币来自指定的手续费 来源，那么找零将返回该来源地址。
+
+#### 参数
+
+- fromaddress：发送地址，字符串，必需
+-  toaddress：接收地址，字符串，必需
+-  propertyid：代币ID，数值，必需 amount：代币数量，字符串，
+- 必需 feeaddress：支付手续费的地址，字符串，必需
+
+#### 返回值
+
+- `omni_funded_send`调用返回16进制编码的交易哈希
+
+#### 示例代码
+
+```
+{
+	"jsonrpc": "2.0", 
+	"id":"1", 
+	"method": "omni_getbalance", 
+	"params": ["1DFa5bT6KMEr6ta29QJouainsjaNBsJQhH"， 
+    "15cWrfuvMxyxGst2FisrQcvcpF48x6sXoH"， 31 ，"100.0" 
+    "15Jhzz4omEXEyFKbdcccJwuVPea5LqsKM1"]
+}
+```
+
+#### 响应
+
+{
+    "result": "1075db55d416d3ca199f55b6084e2115b9345e16c5cf302fc80e9d5fbf5d48d",
+    "error": null,
+    "id": "1"
+}
+
+
+
