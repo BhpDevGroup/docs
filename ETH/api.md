@@ -437,9 +437,11 @@ params: [
 
 Object|Boolean, 同步状态对象或false。同步对象的结构如下：
 
-- startingBlock: QUANTITY - 开始块
-- currentBlock: QUANTITY - 当前块，同eth_blockNumber
-- highestBlock: QUANTITY - 预估最高块
+- startingBlock：开始同步的起始区块编号； 
+- currentBlock：当前正在导入的区块编号； 
+- highestBlock：通过所链接的节点获得的当前最高的区块高度； 
+- pulledStates：当前已经拉取的状态条目数； 
+- knownStates：当前已知的待拉取的总状态条目数；
 
 #### 示例代码
 
