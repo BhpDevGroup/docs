@@ -7,6 +7,8 @@
   - 正式节点：./geth --identity "eth" --datadir "/root/eth/geth/data"  --rpc --rpcapi "db,net,web3,eth,personal,miner" --rpccorsdomain "*"  --rpcaddr 0.0.0.0 --rpcport 8545 --networkid 1 console 2>> eth.log
   - 测试节点：./geth --testnet --datadir "/root/eth/geth/testdata"  --rpc --rpcapi "db,net,web3,eth,personal,miner" --rpccorsdomain "*"  --rpcaddr 0.0.0.0 --rpcport 8545 --networkid 3 console 2>> eth.log
 
+`--testnet`表示选择的是ropsten测试网络，如果想要同步rinkeby测试网络，可以更换参数`--testnet`为`--rinkeby`
+
 
 
 | 参数名称      | 参数描述                                                     |
