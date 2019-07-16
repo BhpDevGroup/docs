@@ -3,7 +3,9 @@
 ## geth节点启动命令
 
 - 进入启动程序目录：/root/eth/go-ethereum/build/bin（PS：路径 “/root/eth/go-ethereum/build/bin” 为 ”/本地源码目录/build/bin“）
-- 启动节点命令：./geth --identity "eth" --datadir "/root/eth/data"  --rpc --rpcapi "db,net,web3,eth,personal,miner" --rpccorsdomain "*"  --rpcaddr 0.0.0.0 --rpcport 8545 --networkid 1 console 2>> eth.log
+- 启动节点命令：
+  - 正式节点：./geth --identity "eth" --datadir "/root/eth/geth/data"  --rpc --rpcapi "db,net,web3,eth,personal,miner" --rpccorsdomain "*"  --rpcaddr 0.0.0.0 --rpcport 8545 --networkid 1 console 2>> eth.log
+  - 测试节点：./geth --testnet --datadir "/root/eth/geth/testdata"  --rpc --rpcapi "db,net,web3,eth,personal,miner" --rpccorsdomain "*"  --rpcaddr 0.0.0.0 --rpcport 8545 --networkid 3 console 2>> eth.log
 
 
 
