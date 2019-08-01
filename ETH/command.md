@@ -61,4 +61,8 @@
 
 ### 进入控制台
 
-./geth attach ipc:/root/eth/data/geth.ipc（PS：路径 “/root/eth/data” 为 ”/本地数据目录/geth.ipc“）
+./geth attach ipc:/root/eth/geth/data/geth.ipc
+
+./geth attach ipc:/root/eth/geth/testdata/geth.ipc
+
+（PS：路径 “/root/eth/data” 为 ”/本地数据目录/geth.ipc“）
