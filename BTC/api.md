@@ -10,6 +10,10 @@ bitcoin-cli  -rpcconnect=127.0.0.1 -rpcuser=123456 -rpcpassword=abcdef -rpcport=
 
 **注意：-rpcconnect=127.0.0.1 -rpcuser=123456 -rpcpassword=abcdef 这段为配置文件中的内容**
 
+### CURL post请求
+
+ curl --user myusername : password --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "getnetworkinfo", "params": [] }' -H 'content-type: text/plain;' http://127.0.0.1:8332/
+
 ### post请求
 
 {
