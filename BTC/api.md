@@ -503,7 +503,7 @@ null
 #### 示例代码
 
 ```
-~$ bitcoin-cli -testnet getbalance "my pass phrase" 1 true
+~$ bitcoin-cli -testnet getbalance "your account name" 1 true
 ```
 
 ```
@@ -511,7 +511,7 @@ null
 	"jsonrpc": "2.0", 
 	"id":"1", 
 	"method": "getbalance", 
-	"params": ["my pass phrase", 1, true]
+	"params": ["*", 1, true]
 }
 ```
 
