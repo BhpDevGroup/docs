@@ -64,7 +64,7 @@ http/2 rpc 端口 （使用wallet-cli 需要连接，只是节点同步数据可
 saveInternalTx = true
 ```
 
-启动节点命令：
+#### 启动节点命令：
 
 ```
 nohup java -Xmx24g -XX:+UseConcMarkSweepGC -jar FullNode.jar  -c main_net_config.conf
