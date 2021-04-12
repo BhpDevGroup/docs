@@ -45,12 +45,9 @@ listen.port = 18888   程序监听端口
     solidityPort = 8091
   }
 ```
-```
 fullNodePort = 8090    全节点rpc 端口
-```
-```
 solidityPort = 8091    solidityPort 节点rpc 端口
-```
+
 
 ```
 rpc {
