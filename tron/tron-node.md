@@ -22,13 +22,22 @@ SSD：1T
 2.下载配置文件：https://github.com/tronprotocol/tron-deployment/blob/master/main_net_config.conf 
 
 **配置文件中部分字段说明：**
-
+```
 db.engine = "LEVELDB"   数据库类型
+```
+```
+db.directory = "database"    数据名称目录
+```
 
-db.directory = "database"    数据目录（不设置为程序运行目录 output-directory 之下）
+说明：数据目录默认为程序运行时生成的 output-directory 之下，如果要设置数据目录，需要在启动命令中加 -d 参数，如下
 
+```
+nohup java -Xmx24g -XX:+UseConcMarkSweepGC -jar FullNode.jar -d /mnt/datassd/trx/node/data -c main_net_config.conf
+```
+
+```
 listen.port = 18888   程序监听端口
-
+```
 
 ```
  http {
@@ -36,24 +45,27 @@ listen.port = 18888   程序监听端口
     solidityPort = 8091
   }
 ```
-
+```
 fullNodePort = 8090    全节点rpc 端口
-
+```
+```
 solidityPort = 8091    solidityPort 节点rpc 端口
+```
 
-
-
+```
 rpc {
     port = 50051   
 }
-
+```
 http/2 rpc 端口 （使用wallet-cli 需要连接，只是节点同步数据可以不开启此端口）
 
 
 
-内部交易是指在智能合约中额外执行的一些交易，如call、transfer等。FullNode节点默认配置是不保存内部交易数据，如果需要保存，请设置 saveInternalTx = true
+内部交易是指在智能合约中额外执行的一些交易，如call、transfer等。FullNode节点默认配置是不保存内部交易数据，如果需要保存，请设置 
 
-
+```
+saveInternalTx = true
+```
 
 启动节点命令：
 
