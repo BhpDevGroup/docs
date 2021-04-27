@@ -75,8 +75,8 @@
 
 交易确认：
 
-- blockhash 存在
-- confirmations 大于等于6
+- **blockhash 存在**
+- **confirmations 大于等于6**
 
 ### 2.OMNI-USDT 通过交易ID查询交易详情
 
@@ -117,7 +117,7 @@
 ```
 交易确认：
 
-- blockhash 存在
-- valid  为 true   (重要)
-- confirmations 大于等于6
-- propertyid （正式网为31，测试网为2或1）
+- **blockhash 存在**
+- **valid  为 true   (重要)**
+- **confirmations 大于等于6**
+- **propertyid （正式网为31，测试网为2或1）**
