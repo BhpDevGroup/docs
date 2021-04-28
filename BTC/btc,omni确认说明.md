@@ -1,4 +1,4 @@
-# BTC，OMNI 确认说明
+# BTC, OMNI, LTC确认说明
 
 ### 1.BTC 通过交易ID查询交易详情
 
@@ -121,3 +121,63 @@
 - **valid  为 true   (重要)**
 - **confirmations 大于等于6**
 - **propertyid （正式网为31，测试网为2或1）**
+
+### 3.LTC通过交易ID查询交易详情
+
+请求：
+```json
+{
+	"jsonrpc": "1.0",
+	"id": "1",
+	"method": "getrawtransaction",
+	"params": ["5269cd900690aa52866f8ebe61c1a5e705b58955a6444df774585cab80963861", 1]
+}
+```
+返回：
+```json
+{
+	"result": {
+		"txid": "5269cd900690aa52866f8ebe61c1a5e705b58955a6444df774585cab80963861",
+		"hash": "28cc2e6332f2b1f2e75ebc5d0756f7c5df70ee9709cc86705af5ac02a9b53ff3",
+		"version": 2,
+		"size": 172,
+		"vsize": 145,
+		"weight": 580,
+		"locktime": 0,
+		"vin": [{
+			"coinbase": "030ebd1c0102",
+			"sequence": 4294967295
+		}],
+		"vout": [{
+			"value": 12.50189630,
+			"n": 0,
+			"scriptPubKey": {
+				"asm": "OP_HASH160 b685be0a116ccfd860c4379ef33fa3db4ea2e6c2 OP_EQUAL",
+				"hex": "a914b685be0a116ccfd860c4379ef33fa3db4ea2e6c287",
+				"reqSigs": 1,
+				"type": "scripthash",
+				"addresses": ["QdF5JnwDWHYMCc34cX81YjniBhMqnp1yGB"]
+			}
+		}, {
+			"value": 0.00000000,
+			"n": 1,
+			"scriptPubKey": {
+				"asm": "OP_RETURN aa21a9ed5128cf4b309e569c66d2cb087085f1a5c50f722be1a0456078f83272447dc885",
+				"hex": "6a24aa21a9ed5128cf4b309e569c66d2cb087085f1a5c50f722be1a0456078f83272447dc885",
+				"type": "nulldata"
+			}
+		}],
+		"hex": "020000000001010000000000000000000000000000000000000000000000000000000000000000ffffffff06030ebd1c0102ffffffff023e61844a0000000017a914b685be0a116ccfd860c4379ef33fa3db4ea2e6c2870000000000000000266a24aa21a9ed5128cf4b309e569c66d2cb087085f1a5c50f722be1a0456078f83272447dc8850120000000000000000000000000000000000000000000000000000000000000000000000000",
+		"blockhash": "303f1e57089f9adb91dd45e780be8c5328fc28180f55164512ec3454002b2422",
+		"confirmations": 5,
+		"time": 1619590077,
+		"blocktime": 1619590077
+	},
+	"error": null,
+	"id": "1"
+}
+```
+交易确认：
+
+- **blockhash 存在**
+- **confirmations 大于等于6**
